@@ -1,0 +1,10 @@
+spring.datasource.username=USUARIO
+spring.datasource.password=SENHA
+spring.datasource.url= jdbc:postgresql://ENDERECO:PORTA/BANCO
+
+
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
