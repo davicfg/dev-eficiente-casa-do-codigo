@@ -1,4 +1,4 @@
-package br.com.deveficiente.casadocodigo.casadocodigo.autor;
+package br.com.deveficiente.casadocodigo.autor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

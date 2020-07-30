@@ -1,4 +1,4 @@
-package br.com.deveficiente.casadocodigo.casadocodigo.compartilhado;
+package br.com.deveficiente.casadocodigo.compartilhado;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

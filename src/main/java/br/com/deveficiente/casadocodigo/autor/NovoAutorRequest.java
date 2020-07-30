@@ -1,4 +1,4 @@
-package br.com.deveficiente.casadocodigo.casadocodigo.autor;
+package br.com.deveficiente.casadocodigo.autor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
