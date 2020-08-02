@@ -1,4 +1,4 @@
-package br.com.deveficiente.casadocodigo.autor;
+package br.com.deveficiente.casadocodigo.livro;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AutorController {
+public class LivroController {
 	
 	@PersistenceContext
 	private EntityManager manager;
 	
-	@PostMapping("/autor")
 	@Transactional
-	public String novoAutor(@RequestBody @Valid NovoAutorRequest request){
-		Autor novoAutor = request.toModel(); //Aqui já poderia ser um construtor de Autor
-		manager.persist(novoAutor);
-		return novoAutor.toString();
+	@PostMapping("/livro")
+	private String criar(@RequestBody @Valid NovoLivroRequest request) {
+		Livro novoLivro = request.toModel();
+		manager.persist(novoLivro);
+		return novoLivro.toString();
 	}
 }
