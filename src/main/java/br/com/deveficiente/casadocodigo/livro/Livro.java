@@ -1,17 +1,24 @@
 package br.com.deveficiente.casadocodigo.livro;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
+
+import com.sun.istack.NotNull;
+
+import br.com.deveficiente.casadocodigo.autor.Autor;
+import br.com.deveficiente.casadocodigo.categoria.Categoria;
 
 @Entity
 public class Livro {
@@ -22,21 +29,20 @@ public class Livro {
 	private @NotBlank String titulo;
 	private @NotBlank @Length(max = 500) String resumo;
 	private String sumario;
-	private @Min(20) Double preco;
+	private @Min(20) BigDecimal preco;
 
 	@Column(name = "numero_paginas")
 	private @Min(100) int numeroPaginas;
 	private @NotBlank String isbn;
 
 	@Column(name = "data_lancamento")
-	private @Future LocalDateTime dataLancamento;
+	private @Future LocalDate dataLancamento;
 
-	@Column(name = "id_categoria")
-
-	private Long idCategoria;
-
-	@Column(name = "id_autor")
-	private Long idAutor;
+	@ManyToOne
+	private @NotNull Categoria categoria;
+	
+	@ManyToOne
+	private @NotNull Autor autor;
 	
 	@Deprecated
 	public Livro() {
@@ -44,8 +50,8 @@ public class Livro {
 	}
 
 	public Livro(@NotBlank String titulo, @NotBlank @Length(max = 500) String resumo, String sumario,
-			@Min(20) Double preco, @Min(100) int numeroPaginas, @NotBlank String isbn,
-			@Future LocalDateTime dataLancamento, Long idCategoria, Long idAutor) {
+			@Min(20) BigDecimal preco, @Min(100) int numeroPaginas, @NotBlank String isbn,
+			@Future LocalDate dataLancamento, Autor autor, Categoria categoria) {
 		this.titulo = titulo;
 		this.resumo = resumo;
 		this.sumario = sumario;
@@ -53,15 +59,15 @@ public class Livro {
 		this.numeroPaginas = numeroPaginas;
 		this.isbn = isbn;
 		this.dataLancamento = dataLancamento;
-		this.idCategoria = idCategoria;
-		this.idAutor = idAutor;
+		this.categoria = categoria;
+		this.autor = autor;
 	}
 
 	@Override
 	public String toString() {
 		return "Livro [titulo=" + titulo + ", resumo=" + resumo + ", sumario=" + sumario + ", preco=" + preco
 				+ ", numeroPaginas=" + numeroPaginas + ", isbn=" + isbn + ", dataLancamento=" + dataLancamento
-				+ ", idCategoria=" + idCategoria + ", idAutor=" + idAutor + "]";
+				+ ", categoria=" + categoria.toString() + ", autor=" + autor.toString() + "]";
 	}
 
 }

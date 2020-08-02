@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Transactional
 public class LivroController {
 	
 	@PersistenceContext
 	private EntityManager manager;
 	
-	@Transactional
 	@PostMapping("/livro")
+	@Transactional
 	private String criar(@RequestBody @Valid NovoLivroRequest request) {
-		Livro novoLivro = request.toModel();
+		Livro novoLivro = request.toModel(manager);
 		manager.persist(novoLivro);
 		return novoLivro.toString();
 	}
