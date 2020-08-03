@@ -20,11 +20,12 @@ import com.sun.istack.NotNull;
 import br.com.deveficiente.casadocodigo.autor.Autor;
 import br.com.deveficiente.casadocodigo.categoria.Categoria;
 import br.com.deveficiente.casadocodigo.compartilhado.ExistId;
+import br.com.deveficiente.casadocodigo.compartilhado.UniqueValue;
 
 public class NovoLivroRequest {
 
 	@NotBlank
-//	@UniqueValue(domainClass = Livro.class, fieldName = "titulo")
+	@UniqueValue(domainClass = Livro.class, fieldName = "titulo")
 	private String titulo;
 	@NotBlank
 	@Size(max = 500)
@@ -37,7 +38,7 @@ public class NovoLivroRequest {
 	@Min(value = 100)
 	private int numeroPaginas;
 	@NotBlank
-//	@UniqueValue(domainClass = Livro.class, fieldName = "isbn")
+	@UniqueValue(domainClass = Livro.class, fieldName = "isbn")
 	private String isbn;
 	@Future
 	@Temporal(TemporalType.DATE)
