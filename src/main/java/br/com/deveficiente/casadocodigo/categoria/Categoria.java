@@ -14,6 +14,11 @@ public class Categoria {
 	private Long id;
 	private @NotBlank String nome;
 
+	@Deprecated
+	public Categoria() {
+		super();
+	}
+
 	public Categoria(@NotBlank String nome) {
 		this.nome = nome;
 	}
