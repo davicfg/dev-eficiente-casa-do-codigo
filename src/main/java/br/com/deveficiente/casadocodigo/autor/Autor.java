@@ -44,6 +44,13 @@ public class Autor {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public String getNome() {
+		return nome;
+	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
 
 	@Override
 	public String toString() {

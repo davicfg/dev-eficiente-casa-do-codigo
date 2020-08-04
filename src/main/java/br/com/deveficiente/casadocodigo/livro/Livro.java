@@ -62,6 +62,44 @@ public class Livro {
 		this.categoria = categoria;
 		this.autor = autor;
 	}
+	
+	
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+	
+	public Autor getAutor() {
+		return autor;
+	}
+	
+	public String getResumo() {
+		return resumo;
+	}
+	
+	public String getSumario() {
+		return sumario;
+	}
+	
+	public String getIsbn() {
+		return isbn;
+	}
+	
+	public int getNumeroPaginas() {
+		return numeroPaginas;
+	}
+	
+	public BigDecimal getPreco() {
+		return preco;
+	}
+	
+	public LocalDate getDataLancamento() {
+		return dataLancamento;
+	}
 
 	@Override
 	public String toString() {
