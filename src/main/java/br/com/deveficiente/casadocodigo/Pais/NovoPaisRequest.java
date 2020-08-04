@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import br.com.deveficiente.casadocodigo.compartilhado.UniqueValue;
 
-public class PaisRequest {
+public class NovoPaisRequest {
 	@NotNull
 	@NotBlank
 	@UniqueValue(domainClass = Pais.class, fieldName = "nome")

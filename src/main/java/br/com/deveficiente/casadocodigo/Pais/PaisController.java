@@ -17,7 +17,7 @@ public class PaisController {
 	
 	@PostMapping("/pais")
 	@Transactional
-	public String criarPais(@RequestBody @Valid PaisRequest request) {
+	public String criarPais(@RequestBody @Valid NovoPaisRequest request) {
 		Pais novoPais = request.toModel();
 		manager.persist(novoPais);
 		return novoPais.toString();

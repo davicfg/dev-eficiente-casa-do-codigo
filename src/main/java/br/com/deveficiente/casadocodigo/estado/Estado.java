@@ -17,13 +17,13 @@ public class Estado {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private @NotNull @NotBlank String nome;
+	private @NotBlank String nome;
 	
 	@ManyToOne
 	private Pais pais;
 	
 	
-	public Estado(@NotNull @NotBlank String nome, Pais pais) {
+	public Estado(@NotBlank String nome, @NotNull Pais pais) {
 		this.nome = nome;
 		this.pais = pais;
 	}
