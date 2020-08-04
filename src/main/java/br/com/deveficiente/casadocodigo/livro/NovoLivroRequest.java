@@ -53,7 +53,6 @@ public class NovoLivroRequest {
 
 	public NovoLivroRequest(@NotBlank String titulo, @NotBlank @Length(max = 500) String resumo, String sumario,
 			@Min(20) BigDecimal preco, @Min(100) int numeroPaginas, @NotBlank String isbn, Long idCategoria, Long idAutor) {
-		super();
 		this.titulo = titulo;
 		this.resumo = resumo;
 		this.sumario = sumario;
