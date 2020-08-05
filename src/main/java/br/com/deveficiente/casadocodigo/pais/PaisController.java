@@ -1,4 +1,4 @@
-package br.com.deveficiente.casadocodigo.Pais;
+package br.com.deveficiente.casadocodigo.pais;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

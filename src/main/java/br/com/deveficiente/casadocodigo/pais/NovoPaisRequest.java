@@ -1,4 +1,4 @@
-package br.com.deveficiente.casadocodigo.Pais;
+package br.com.deveficiente.casadocodigo.pais;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
