@@ -21,7 +21,7 @@ public class FechaCompraParte1Controller {
 	}
 	
 	@PostMapping(value = "/fechamento-compra")
-	public String novaCompra(@RequestBody @Valid NovaCompraRequest request ) {
+	public String novaCompra(@RequestBody @Valid NovaCompraRequest request) {
 		
 		return request.toString();
 	}

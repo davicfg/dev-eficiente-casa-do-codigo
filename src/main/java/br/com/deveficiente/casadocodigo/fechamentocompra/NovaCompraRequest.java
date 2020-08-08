@@ -1,5 +1,6 @@
 package br.com.deveficiente.casadocodigo.fechamentocompra;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,6 @@ public class NovaCompraRequest {
 	@NotBlank
 	private String sobrenome;
 	@NotBlank
-	// Validar CPF e CNPJ
 	private String documento;
 	@NotBlank
 	private String endereco;
@@ -39,12 +39,14 @@ public class NovaCompraRequest {
 	private String telefone;
 	@NotBlank
 	private String cep;
+	@Valid
+	@NotNull
+	private NovoPedidoRequest pedido;
 
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
 			@NotBlank String cidade, @NotNull Long idPais, Long idEstado, @NotBlank String telefone,
-			@NotBlank String cep) {
-		super();
+			@NotBlank String cep, @Valid @NotNull NovoPedidoRequest pedido) {
 		this.email = email;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -56,11 +58,23 @@ public class NovaCompraRequest {
 		this.idEstado = idEstado;
 		this.telefone = telefone;
 		this.cep = cep;
+		this.pedido = pedido;
+
 	}
 
+	/*
+	 * Esse método ficou pq aqui juntamos comportamento com estado e isso é muito
+	 * bom para coesão. Eu bem que poderia ter feito isso no
+	 * VerificaDocumentoCpfCnpjValidator, mas ia manipular meu estado fora da classe
+	 * dele.
+	 */
 	public boolean documentoValido() {
 		Assert.hasLength(documento, "você não deveria validar o documento se ele não tiver sido preenchido");
 
+		/*
+		 * Outro abordagem seria copiar as classes de validação do cpf e do cnpj para
+		 * não ficar acoplado com o hibernate
+		 */
 		CPFValidator cpfValidator = new CPFValidator();
 		cpfValidator.initialize(null);
 
