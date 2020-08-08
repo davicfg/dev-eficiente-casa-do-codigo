@@ -1,5 +1,6 @@
 package br.com.deveficiente.casadocodigo.fechamentocompra;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,7 +34,6 @@ public class NovaCompraRequest {
 	@ExistId(domainClass = Pais.class, fieldName = "id")
 	private Long idPais;
 	@ExistId(domainClass = Estado.class, fieldName = "id")
-	// Validar se um pais tem estado cadastrado
 	private Long idEstado;
 	@NotBlank
 	private String telefone;
@@ -101,6 +101,23 @@ public class NovaCompraRequest {
 				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
 				+ ", idPais=" + idPais + ", idEstado=" + idEstado + ", telefone=" + telefone + ", cep=" + cep
 				+ ", pedido=" + pedido.toString() + "]";
+	}
+
+	public Compra toModel(EntityManager manager) {
+		@NotNull Pais pais = manager.find(Pais.class, idPais);
+		Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, pais, telefone, cep);
+		
+		if(idEstado!=null) {
+			compra.setEstado(manager.find(Estado.class, idEstado));
+		}
+		return compra;
+	}
+
+	/*
+	 * Sempre lembrar de operar o estado interno dentro da class a qual ela contem
+	 */
+	public boolean temEstado() {
+		return idEstado!=null;
 	}
 
 }
