@@ -62,6 +62,17 @@ public class NovaCompraRequest {
 
 	}
 
+	public Long getIdPais() {
+		return idPais;
+	}
+
+	public Long getIdEstado() {
+		return idEstado;
+	}
+	
+	public NovoPedidoRequest getPedido() {
+		return pedido;
+	}
 	/*
 	 * Esse método ficou pq aqui juntamos comportamento com estado e isso é muito
 	 * bom para coesão. Eu bem que poderia ter feito isso no
@@ -88,15 +99,8 @@ public class NovaCompraRequest {
 	public String toString() {
 		return "NovaCompraRequest [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento="
 				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
-				+ ", idPais=" + idPais + ", idEstado=" + idEstado + ", telefone=" + telefone + ", cep=" + cep + "]";
-	}
-
-	public Long getIdPais() {
-		return idPais;
-	}
-
-	public Long getIdEstado() {
-		return idEstado;
+				+ ", idPais=" + idPais + ", idEstado=" + idEstado + ", telefone=" + telefone + ", cep=" + cep
+				+ ", pedido=" + pedido.toString() + "]";
 	}
 
 }

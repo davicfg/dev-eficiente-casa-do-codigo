@@ -19,7 +19,11 @@ public class NovoPedidoItemRequest {
 		this.idLivro = idLivro;
 		this.quantidade = quantidade;
 	}
-
+	
+	public Long getIdLivro() {
+		return idLivro;
+	}
+	
 	@Override
 	public String toString() {
 		return "NovoPedidoItemRequest [idLivro=" + idLivro + ", quantidade=" + quantidade + "]";

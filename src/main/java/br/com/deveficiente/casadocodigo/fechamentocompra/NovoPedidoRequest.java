@@ -23,6 +23,10 @@ public class NovoPedidoRequest {
 		this.total = total;
 		this.itens = itens;
 	}
+	
+	public List<NovoPedidoItemRequest> getItens() {
+		return itens;
+	}
 
 	@Override
 	public String toString() {
