@@ -1,8 +1,8 @@
 package br.com.deveficiente.casadocodigo.fechamentocompra;
 
+import javax.persistence.EntityManager;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-
-import com.sun.istack.NotNull;
 
 import br.com.deveficiente.casadocodigo.compartilhado.ExistId;
 import br.com.deveficiente.casadocodigo.livro.Livro;
@@ -28,5 +28,11 @@ public class NovoPedidoItemRequest {
 	public String toString() {
 		return "NovoPedidoItemRequest [idLivro=" + idLivro + ", quantidade=" + quantidade + "]";
 	}
+
+	public ItemPedido toModel(EntityManager manager) {
+		@NotNull Livro livro = manager.find(Livro.class, idLivro);
+		return new ItemPedido(livro, quantidade);
+	}
+	
 
 }

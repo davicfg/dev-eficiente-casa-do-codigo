@@ -110,11 +110,14 @@ public class NovaCompraRequest {
 		if(idEstado!=null) {
 			compra.setEstado(manager.find(Estado.class, idEstado));
 		}
+		
+		Pedido novoPedido = pedido.toModel(compra, manager);
+		System.out.println(novoPedido.toString());
 		return compra;
 	}
 
 	/*
-	 * Sempre lembrar de operar o estado interno dentro da class a qual ela contem
+	 * Sempre lembrar de operar o estado interno dentro da class a qual ela contem, fica bem melhor.
 	 */
 	public boolean temEstado() {
 		return idEstado!=null;
