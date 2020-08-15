@@ -65,7 +65,7 @@ public class NovoLivroRequest {
 	
 	/*
 	 * Existe esse único set porque, aparentemente, o Jackson não consegue desserializar o json com uma data no parâmetro via construtor
-	 * Talvez existe alguma forma melhorde de fazer
+	 * Talvez existe alguma forma melhor de de fazer
 	 */
 	public void setDataLancamento(LocalDate dataLancamento) {
 		this.dataLancamento = dataLancamento;

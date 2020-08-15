@@ -32,7 +32,7 @@ public class FechaCompraParte1Controller {
 	@PostMapping(value = "/fechamento-compra")
 	public String novaCompra(@RequestBody @Valid NovaCompraRequest request) {
 		Compra novaCompra = request.toModel(manager);
-		return novaCompra.toString();
+		return request.toString();
 	}
 
 }

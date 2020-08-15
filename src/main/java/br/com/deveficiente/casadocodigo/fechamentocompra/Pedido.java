@@ -32,8 +32,6 @@ public class Pedido {
 
 	public boolean totalIgual(@Positive BigDecimal total) {
 		BigDecimal totalPedido = itens.stream().map(ItemPedido:: total).reduce(BigDecimal.ZERO, (atual, proximo) -> atual.add(proximo));
-		System.out.println(totalPedido);
-		System.out.println(total);
 		return totalPedido.doubleValue() == total.doubleValue();
 	}
 

@@ -1,5 +1,7 @@
 package br.com.deveficiente.casadocodigo.fechamentocompra;
 
+import java.util.function.Function;
+
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -73,6 +75,17 @@ public class NovaCompraRequest {
 	public NovoPedidoRequest getPedido() {
 		return pedido;
 	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "NovaCompraRequest [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento="
+				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
+				+ ", idPais=" + idPais + ", idEstado=" + idEstado + ", telefone=" + telefone + ", cep=" + cep
+				+ ", pedido=" + pedido.toString() + "]";
+	}
+
 	/*
 	 * Esse método ficou pq aqui juntamos comportamento com estado e isso é muito
 	 * bom para coesão. Eu bem que poderia ter feito isso no
@@ -95,24 +108,15 @@ public class NovaCompraRequest {
 		return cpfValidator.isValid(documento, null) || cnpjValidator.isValid(documento, null);
 	}
 
-	@Override
-	public String toString() {
-		return "NovaCompraRequest [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento="
-				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
-				+ ", idPais=" + idPais + ", idEstado=" + idEstado + ", telefone=" + telefone + ", cep=" + cep
-				+ ", pedido=" + pedido.toString() + "]";
-	}
-
 	public Compra toModel(EntityManager manager) {
 		@NotNull Pais pais = manager.find(Pais.class, idPais);
-		Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, pais, telefone, cep);
+		 Function<Compra, Pedido> funcaoCriacaoPedido = pedido.toModel(manager);
+		Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, pais, telefone, cep, funcaoCriacaoPedido);
 		
 		if(idEstado!=null) {
 			compra.setEstado(manager.find(Estado.class, idEstado));
 		}
-		
-		Pedido novoPedido = pedido.toModel(compra, manager);
-		System.out.println(novoPedido.toString());
+		;
 		return compra;
 	}
 

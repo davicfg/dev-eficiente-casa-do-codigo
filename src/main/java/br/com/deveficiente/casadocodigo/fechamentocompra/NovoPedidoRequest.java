@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -28,7 +29,7 @@ public class NovoPedidoRequest {
 		this.total = total;
 		this.itens = itens;
 	}
-	
+
 	public List<NovoPedidoItemRequest> getItens() {
 		return itens;
 	}
@@ -38,12 +39,13 @@ public class NovoPedidoRequest {
 		return "NovoPedidoRequest [total=" + total + ", itens=" + itens.toString() + "]";
 	}
 
-	public Pedido toModel(Compra compra, EntityManager manager) {
+	public Function<Compra, Pedido> toModel(EntityManager manager) {
 		Set<ItemPedido> itensCalculados = itens.stream().map(item -> item.toModel(manager)).collect(Collectors.toSet());
-		Pedido pedido = new Pedido(compra, itensCalculados);
 		
-		Assert.isTrue(pedido.totalIgual(total), "O total enviado não corresponde ao total real");
-		
-		return pedido;
+		return (compra) -> {
+			Pedido pedido = new Pedido(compra, itensCalculados);
+			Assert.isTrue(pedido.totalIgual(total), "O total enviado não corresponde ao total real");			
+			return pedido;
+		};
 	}
 }

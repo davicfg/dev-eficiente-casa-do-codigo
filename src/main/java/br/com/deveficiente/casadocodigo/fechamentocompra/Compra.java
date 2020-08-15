@@ -1,6 +1,9 @@
 package br.com.deveficiente.casadocodigo.fechamentocompra;
 
+import java.util.function.Function;
+
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +13,6 @@ import org.springframework.util.Assert;
 
 import br.com.deveficiente.casadocodigo.estado.Estado;
 import br.com.deveficiente.casadocodigo.pais.Pais;
-
 
 public class Compra {
 
@@ -24,13 +26,15 @@ public class Compra {
 	private @NotNull Pais pais;
 	private @NotBlank String telefone;
 	private @NotBlank String cep;
-	
+
 	@ManyToOne
 	private Estado estado;
+	@OneToOne(mappedBy = "compra")
+	private Pedido pedido;
 
 	public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento, @NotNull Pais pais,
-			@NotBlank String telefone, @NotBlank String cep) {
+			@NotBlank String telefone, @NotBlank String cep, Function<Compra, Pedido> funcaoCriacaoPedido) {
 		this.email = email;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -40,26 +44,24 @@ public class Compra {
 		this.pais = pais;
 		this.telefone = telefone;
 		this.cep = cep;
+		this.pedido = funcaoCriacaoPedido.apply(this);
 	}
 
-	
 	@Override
 	public String toString() {
 		return "Compra [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento=" + documento
 				+ ", endereco=" + endereco + ", complemento=" + complemento + ", pais=" + pais + ", telefone="
-				+ telefone + ", cep=" + cep + ", estado=" + estado + "]";
+				+ telefone + ", cep=" + cep + ", estado=" + estado + ", pedido=" + pedido.toString() + "]";
 	}
-
 
 	public void setEstado(@NotNull @Valid Estado estado) {
 		/*
-		 * Sempre bom proteger a entrada dos dados nas nossas funções, pois não podemos depender que o usuário da nossa função seja bonzinho.
+		 * Sempre bom proteger a entrada dos dados nas nossas funções, pois não podemos
+		 * depender que o usuário da nossa função seja bonzinho.
 		 */
 		Assert.notNull(pais, "Não vai dar certo associar essa compra com um estado nulo");
 		Assert.isTrue(estado.pertenceAPais(pais), "Este estado não pertende ao país que foi associdado a compra");
 		this.estado = estado;
 	}
-	
-	
 
 }
