@@ -3,6 +3,7 @@ package br.com.deveficiente.casadocodigo.cupom;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,18 +19,31 @@ public class Cupom {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private @NotBlank String codigo;
-	private @NotNull @Positive BigDecimal desconto;
+	@Column(name = "percentual_desconto")
+	private @NotNull @Positive BigDecimal percentualDesconto;
 	private @Future @NotNull LocalDate validade;
 
-	public Cupom(@NotBlank String codigo, @NotNull @Positive BigDecimal desconto, @NotNull @Future LocalDate validade) {
+	public Cupom(@NotBlank String codigo, @NotNull @Positive BigDecimal codigoCupom, @NotNull @Future LocalDate validade) {
 		this.codigo = codigo;
-		this.desconto = desconto;
+		this.percentualDesconto = codigoCupom;
 		this.validade = validade;
 	}
 
 	@Override
 	public String toString() {
-		return "Cupom [id=" + id + ", codigo=" + codigo + ", desconto=" + desconto + ", validadade=" + validade + "]";
+		return "Cupom [id=" + id + ", codigo=" + codigo + ", desconto=" + percentualDesconto + ", validadade=" + validade + "]";
+	}
+
+	public boolean valido() {
+		return LocalDate.now().compareTo(this.validade) <=0;
+	}
+
+	public BigDecimal getPercentualdesconto() {
+		return percentualDesconto;
+	}
+
+	public Object getValidade() {
+		return validade;
 	}
 	
 }

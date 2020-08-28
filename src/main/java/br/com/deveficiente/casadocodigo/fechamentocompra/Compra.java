@@ -2,6 +2,7 @@ package br.com.deveficiente.casadocodigo.fechamentocompra;
 
 import java.util.function.Function;
 
+import javax.persistence.Embedded;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
+import br.com.deveficiente.casadocodigo.cupom.Cupom;
 import br.com.deveficiente.casadocodigo.estado.Estado;
 import br.com.deveficiente.casadocodigo.pais.Pais;
 
@@ -31,6 +33,8 @@ public class Compra {
 	private Estado estado;
 	@OneToOne(mappedBy = "compra")
 	private Pedido pedido;
+	@Embedded
+	private CupomAplicado cupomAplicado;
 
 	public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento, @NotNull Pais pais,
@@ -62,6 +66,13 @@ public class Compra {
 		Assert.notNull(pais, "Não vai dar certo associar essa compra com um estado nulo");
 		Assert.isTrue(estado.pertenceAPais(pais), "Este estado não pertende ao país que foi associdado a compra");
 		this.estado = estado;
+	}
+
+	public void aplicaCupom(Cupom cupom) {
+		Assert.isTrue(!cupom.valido(), "o Cupom usado não é mais valido");
+		Assert.isNull(cupom, "você não pode trocar um cupode de uma compra");
+		this.cupomAplicado = new CupomAplicado(cupom);
+		
 	}
 
 }

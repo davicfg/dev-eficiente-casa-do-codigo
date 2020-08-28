@@ -11,8 +11,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import br.com.deveficiente.casadocodigo.compartilhado.ExistId;
+import br.com.deveficiente.casadocodigo.cupom.Cupom;
 import br.com.deveficiente.casadocodigo.estado.Estado;
 import br.com.deveficiente.casadocodigo.pais.Pais;
 
@@ -43,7 +45,10 @@ public class NovaCompraRequest {
 	private String cep;
 	@Valid
 	@NotNull
+	// 1
 	private NovoPedidoRequest pedido;
+
+	private String codigoCupom;
 
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
@@ -71,13 +76,15 @@ public class NovaCompraRequest {
 	public Long getIdEstado() {
 		return idEstado;
 	}
-	
+
 	public NovoPedidoRequest getPedido() {
 		return pedido;
 	}
-	
-	
-	
+
+	public void setIdCupom(String codigoCupom) {
+		this.codigoCupom = codigoCupom;
+	}
+
 	@Override
 	public String toString() {
 		return "NovaCompraRequest [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento="
@@ -104,27 +111,40 @@ public class NovaCompraRequest {
 
 		CNPJValidator cnpjValidator = new CNPJValidator();
 		cnpjValidator.initialize(null);
-
+		// 1
 		return cpfValidator.isValid(documento, null) || cnpjValidator.isValid(documento, null);
 	}
 
-	public Compra toModel(EntityManager manager) {
-		@NotNull Pais pais = manager.find(Pais.class, idPais);
-		 Function<Compra, Pedido> funcaoCriacaoPedido = pedido.toModel(manager);
-		Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, pais, telefone, cep, funcaoCriacaoPedido);
-		
-		if(idEstado!=null) {
+	// 1
+	public Compra toModel(EntityManager manager, CupomRepository cupomRepository) {
+		@NotNull
+		// 1
+		Pais pais = manager.find(Pais.class, idPais);
+		// 1
+		// 1
+		Function<Compra, Pedido> funcaoCriacaoPedido = pedido.toModel(manager);
+		// 1 função por argumento
+		Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, pais, telefone, cep,
+				funcaoCriacaoPedido);
+		// 1
+		if (idEstado != null) {
 			compra.setEstado(manager.find(Estado.class, idEstado));
 		}
 		;
+		// 1
+		if (StringUtils.hasText(codigoCupom)) {
+			Cupom cupom = cupomRepository.getByCodigo(codigoCupom);
+			compra.aplicaCupom(cupom);
+		}
 		return compra;
 	}
 
 	/*
-	 * Sempre lembrar de operar o estado interno dentro da class a qual ela contem, fica bem melhor.
+	 * Sempre lembrar de operar o estado interno dentro da class a qual ela contem,
+	 * fica bem melhor.
 	 */
 	public boolean temEstado() {
-		return idEstado!=null;
+		return idEstado != null;
 	}
 
 }
