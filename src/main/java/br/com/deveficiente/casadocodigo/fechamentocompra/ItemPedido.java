@@ -2,14 +2,21 @@ package br.com.deveficiente.casadocodigo.fechamentocompra;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import br.com.deveficiente.casadocodigo.livro.Livro;
 
+@Entity
 public class ItemPedido {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@ManyToOne
 	private @NotNull Livro livro;
 	private @Positive int quantidade;
@@ -24,13 +31,6 @@ public class ItemPedido {
 
 	public BigDecimal total() {
 		return precoMomento.multiply(new BigDecimal(quantidade));
-	}
-	
-	
-	
-	@Override
-	public String toString() {
-		return "ItemPedido [livro=" + livro + ", quantidade=" + quantidade + ", precoMomento=" + precoMomento + "]";
 	}
 
 	@Override
@@ -57,6 +57,9 @@ public class ItemPedido {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ItemPedido [livro=" + livro + ", quantidade=" + quantidade + ", precoMomento=" + precoMomento + "]";
+	}
 }

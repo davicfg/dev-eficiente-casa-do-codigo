@@ -1,5 +1,6 @@
 package br.com.deveficiente.casadocodigo.fechamentocompra;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.persistence.EntityManager;
@@ -47,7 +48,7 @@ public class NovaCompraRequest {
 	@NotNull
 	// 1
 	private NovoPedidoRequest pedido;
-
+	@ExistId(domainClass = Cupom.class, fieldName = "codigo")
 	private String codigoCupom;
 
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
@@ -81,16 +82,8 @@ public class NovaCompraRequest {
 		return pedido;
 	}
 
-	public void setIdCupom(String codigoCupom) {
+	public void setCodigoCupom(String codigoCupom) {
 		this.codigoCupom = codigoCupom;
-	}
-
-	@Override
-	public String toString() {
-		return "NovaCompraRequest [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento="
-				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
-				+ ", idPais=" + idPais + ", idEstado=" + idEstado + ", telefone=" + telefone + ", cep=" + cep
-				+ ", pedido=" + pedido.toString() + "]";
 	}
 
 	/*
@@ -145,6 +138,14 @@ public class NovaCompraRequest {
 	 */
 	public boolean temEstado() {
 		return idEstado != null;
+	}
+
+	public boolean temCupomDesconto() {
+		return StringUtils.hasText(codigoCupom);
+	}
+
+	public Optional<String> getCodigoCupom() {
+		return Optional.ofNullable(codigoCupom);
 	}
 
 }

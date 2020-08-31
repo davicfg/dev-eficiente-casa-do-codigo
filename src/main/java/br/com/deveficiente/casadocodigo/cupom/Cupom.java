@@ -22,6 +22,11 @@ public class Cupom {
 	@Column(name = "percentual_desconto")
 	private @NotNull @Positive BigDecimal percentualDesconto;
 	private @Future @NotNull LocalDate validade;
+	
+	@Deprecated
+	public Cupom() {
+		super();
+	}
 
 	public Cupom(@NotBlank String codigo, @NotNull @Positive BigDecimal codigoCupom, @NotNull @Future LocalDate validade) {
 		this.codigo = codigo;
@@ -35,6 +40,8 @@ public class Cupom {
 	}
 
 	public boolean valido() {
+		System.out.println(LocalDate.now());
+		System.out.println(LocalDate.now().compareTo(this.validade));
 		return LocalDate.now().compareTo(this.validade) <=0;
 	}
 
@@ -42,7 +49,7 @@ public class Cupom {
 		return percentualDesconto;
 	}
 
-	public Object getValidade() {
+	public LocalDate getValidade() {
 		return validade;
 	}
 	

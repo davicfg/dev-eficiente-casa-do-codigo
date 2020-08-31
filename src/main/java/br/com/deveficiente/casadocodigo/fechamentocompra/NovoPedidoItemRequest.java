@@ -23,11 +23,6 @@ public class NovoPedidoItemRequest {
 	public Long getIdLivro() {
 		return idLivro;
 	}
-	
-	@Override
-	public String toString() {
-		return "NovoPedidoItemRequest [idLivro=" + idLivro + ", quantidade=" + quantidade + "]";
-	}
 
 	public ItemPedido toModel(EntityManager manager) {
 		@NotNull Livro livro = manager.find(Livro.class, idLivro);

@@ -2,7 +2,14 @@ package br.com.deveficiente.casadocodigo.fechamentocompra;
 
 import java.util.function.Function;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -16,8 +23,11 @@ import br.com.deveficiente.casadocodigo.cupom.Cupom;
 import br.com.deveficiente.casadocodigo.estado.Estado;
 import br.com.deveficiente.casadocodigo.pais.Pais;
 
+@Entity
 public class Compra {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private @NotBlank @Email String email;
 	private @NotBlank String nome;
 	private @NotBlank String sobrenome;
@@ -31,7 +41,8 @@ public class Compra {
 
 	@ManyToOne
 	private Estado estado;
-	@OneToOne(mappedBy = "compra")
+	@OneToOne(mappedBy = "compra", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
 	private Pedido pedido;
 	@Embedded
 	private CupomAplicado cupomAplicado;
@@ -51,13 +62,6 @@ public class Compra {
 		this.pedido = funcaoCriacaoPedido.apply(this);
 	}
 
-	@Override
-	public String toString() {
-		return "Compra [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento=" + documento
-				+ ", endereco=" + endereco + ", complemento=" + complemento + ", pais=" + pais + ", telefone="
-				+ telefone + ", cep=" + cep + ", estado=" + estado + ", pedido=" + pedido.toString() + "]";
-	}
-
 	public void setEstado(@NotNull @Valid Estado estado) {
 		/*
 		 * Sempre bom proteger a entrada dos dados nas nossas funções, pois não podemos
@@ -69,10 +73,18 @@ public class Compra {
 	}
 
 	public void aplicaCupom(Cupom cupom) {
-		Assert.isTrue(!cupom.valido(), "o Cupom usado não é mais valido");
-		Assert.isNull(cupom, "você não pode trocar um cupode de uma compra");
+		Assert.isTrue(cupom.valido(), "o Cupom usado não é mais valido");
+		Assert.isNull(cupomAplicado, "você não pode trocar um cupo de uma compra");
 		this.cupomAplicado = new CupomAplicado(cupom);
-		
+
+	}
+
+	@Override
+	public String toString() {
+		return "Compra [email=" + email + ", nome=" + nome + ", sobrenome=" + sobrenome + ", documento=" + documento
+				+ ", endereco=" + endereco + ", complemento=" + complemento + ", pais=" + pais + ", telefone="
+				+ telefone + ", cep=" + cep + ", estado=" + estado + ", pedido=" + pedido + ", cupomAplicado="
+				+ cupomAplicado + "]";
 	}
 
 }

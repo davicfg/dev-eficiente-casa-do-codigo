@@ -34,11 +34,6 @@ public class NovoPedidoRequest {
 		return itens;
 	}
 
-	@Override
-	public String toString() {
-		return "NovoPedidoRequest [total=" + total + ", itens=" + itens.toString() + "]";
-	}
-
 	public Function<Compra, Pedido> toModel(EntityManager manager) {
 		Set<ItemPedido> itensCalculados = itens.stream().map(item -> item.toModel(manager)).collect(Collectors.toSet());
 		
